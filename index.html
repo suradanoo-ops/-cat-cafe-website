@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meow & Milk Cat Café</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFF6F2;
+    --surface: #FFFFFF;
+    --surface-2: #FCEEE8;
+    --ink: #4A342E;
+    --ink-soft: #8C7168;
+    --primary: #E8837A;
+    --primary-strong: #D96459;
+    --primary-ink: #FFFFFF;
+    --accent: #F2C879;
+    --accent-ink: #4A342E;
+    --sage: #8FAE7D;
+    --sage-bg: #EAF1E5;
+    --border: #F3DED4;
+    --shadow: rgba(74, 52, 46, 0.14);
+    --star: #F2A93B;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #241A17;
+      --surface: #34251F;
+      --surface-2: #3D2B24;
+      --ink: #F7EBE4;
+      --ink-soft: #CBB3A8;
+      --primary: #E8837A;
+      --primary-strong: #F09C94;
+      --primary-ink: #241A17;
+      --accent: #F2C879;
+      --accent-ink: #241A17;
+      --sage: #9BC17F;
+      --sage-bg: #2C3624;
+      --border: #4A3830;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --star: #F2C879;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #241A17; --surface: #34251F; --surface-2: #3D2B24; --ink: #F7EBE4; --ink-soft: #CBB3A8;
+    --primary: #E8837A; --primary-strong: #F09C94; --primary-ink: #241A17; --accent: #F2C879; --accent-ink: #241A17;
+    --sage: #9BC17F; --sage-bg: #2C3624; --border: #4A3830; --shadow: rgba(0,0,0,0.4); --star: #F2C879;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5.2rem; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Sarabun", sans-serif; -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  h1, h2, h3, .brand-name, .kanit { font-family: "Kanit", sans-serif; }
+  a { color: inherit; }
+  img, svg { max-width: 100%; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.1rem; }
+
+  /* ---------- header ---------- */
+  header.top {
+    position: sticky; top: 0; z-index: 30;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .top-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1.1rem; max-width: 1080px; margin: 0 auto; gap: 0.6rem; }
+  .brand { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+  .brand svg { width: 34px; height: 34px; flex: none; color: var(--primary-strong); }
+  .brand-name { font-weight: 700; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hours-chip {
+    display: none; font-size: 0.72rem; background: var(--sage-bg); color: var(--sage);
+    padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 600; white-space: nowrap;
+  }
+  @media (min-width: 640px) { .hours-chip { display: inline-block; } }
+  .top-actions { display: flex; align-items: center; gap: 0.5rem; flex: none; }
+  .lang-btn {
+    border: 1.5px solid var(--primary); background: transparent; color: var(--primary-strong);
+    font-family: "Kanit", sans-serif; font-weight: 600; font-size: 0.82rem;
+    padding: 0.4rem 0.75rem; border-radius: 999px; cursor: pointer;
+  }
+  .lang-btn:active { transform: scale(0.96); }
+
+  nav.pillnav {
+    display: flex; gap: 0.4rem; overflow-x: auto; padding: 0.55rem 1.1rem 0.7rem;
+    max-width: 1080px; margin: 0 auto; -ms-overflow-style: none; scrollbar-width: none;
+  }
+  nav.pillnav::-webkit-scrollbar { display: none; }
+  nav.pillnav a {
+    flex: none; text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    padding: 0.4rem 0.85rem; border-radius: 999px; background: var(--surface-2); color: var(--ink-soft);
+    font-family: "Kanit", sans-serif;
+  }
+  nav.pillnav a.active { background: var(--primary); color: var(--primary-ink); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 2.6rem 0 2.2rem;
+    background: radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 55%),
+                radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--primary) 18%, transparent), transparent 55%);
+  }
+  .hero h1 { font-size: clamp(1.7rem, 4.2vw, 2.6rem); margin: 0 0 0.6rem; line-height: 1.25; }
+  .hero p { font-size: 1rem; color: var(--ink-soft); max-width: 46ch; margin: 0 0 1.4rem; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem; border: none; cursor: pointer;
+    font-family: "Kanit", sans-serif; font-weight: 600; font-size: 0.95rem;
+    padding: 0.75rem 1.4rem; border-radius: 999px; text-decoration: none;
+    transition: transform .12s ease, filter .12s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--primary); color: var(--primary-ink); }
+  .btn-outline { background: transparent; border: 1.6px solid var(--primary); color: var(--primary-strong); }
+  .btn-sage { background: var(--sage); color: #fff; }
+  .btn-block { width: 100%; justify-content: center; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  section { padding: 2.6rem 0; }
+  section h2 { font-size: 1.5rem; margin: 0 0 0.3rem; }
+  section .lead { color: var(--ink-soft); margin: 0 0 1.4rem; font-size: 0.95rem; }
+  .section-alt { background: var(--surface-2); }
+
+  /* ---------- cats ---------- */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+  .cat-card { background: var(--surface); border-radius: 18px; padding: 1.1rem; text-align: center; box-shadow: 0 3px 14px var(--shadow); }
+  .cat-face { width: 96px; height: 96px; margin: 0 auto 0.7rem; }
+  .cat-name { font-weight: 700; font-size: 1.02rem; margin-bottom: 0.15rem; }
+  .cat-tags { display: flex; gap: 0.3rem; justify-content: center; flex-wrap: wrap; margin: 0.4rem 0 0.5rem; }
+  .cat-tag { font-size: 0.68rem; background: var(--sage-bg); color: var(--sage); padding: 0.15rem 0.5rem; border-radius: 999px; font-weight: 600; }
+  .cat-bio { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ---------- menu ---------- */
+  .menu-cats { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+  .menu-tab {
+    font-family: "Kanit", sans-serif; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+    padding: 0.45rem 0.9rem; border-radius: 999px; background: var(--surface); border: 1.5px solid var(--border); color: var(--ink-soft);
+  }
+  .menu-tab.active { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+  .menu-list { display: grid; gap: 0.7rem; }
+  .menu-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: var(--surface); border-radius: 14px; padding: 0.9rem 1.1rem; box-shadow: 0 2px 10px var(--shadow);
+  }
+  .menu-item .name { font-weight: 600; }
+  .menu-item .desc { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.1rem; }
+  .menu-item .price { font-family: "Kanit", sans-serif; font-weight: 700; color: var(--primary-strong); white-space: nowrap; }
+  .fee-note { margin-top: 1.2rem; background: var(--accent); color: var(--accent-ink); border-radius: 14px; padding: 0.9rem 1.1rem; font-size: 0.88rem; font-weight: 600; }
+
+  /* ---------- booking ---------- */
+  .book-card { background: var(--surface); border-radius: 20px; padding: 1.4rem; box-shadow: 0 4px 18px var(--shadow); }
+  .step-label { font-family: "Kanit", sans-serif; font-weight: 600; font-size: 0.85rem; color: var(--primary-strong); margin: 1.1rem 0 0.6rem; }
+  .step-label:first-child { margin-top: 0; }
+  .date-row { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.3rem; }
+  .date-chip {
+    flex: none; text-align: center; cursor: pointer; background: var(--surface-2); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 0.55rem 0.7rem; min-width: 56px; font-family: "Kanit", sans-serif;
+  }
+  .date-chip .dow { font-size: 0.68rem; color: var(--ink-soft); }
+  .date-chip .dnum { font-size: 1.05rem; font-weight: 700; }
+  .date-chip.active { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+  .date-chip.active .dow { color: var(--primary-ink); opacity: 0.85; }
+
+  .slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 0.5rem; }
+  .slot {
+    cursor: pointer; text-align: center; border-radius: 12px; padding: 0.55rem 0.3rem;
+    background: var(--surface-2); border: 1.5px solid var(--border); font-family: "Kanit", sans-serif;
+  }
+  .slot .t { font-weight: 700; font-size: 0.88rem; }
+  .slot .a { font-size: 0.65rem; color: var(--ink-soft); margin-top: 0.1rem; }
+  .slot.full { opacity: 0.4; cursor: not-allowed; }
+  .slot.active { background: var(--primary); border-color: var(--primary); color: var(--primary-ink); }
+  .slot.active .a { color: var(--primary-ink); opacity: 0.85; }
+
+  .form-grid { display: grid; gap: 0.8rem; margin-top: 0.5rem; }
+  .field label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--ink-soft); }
+  .field input, .field textarea {
+    width: 100%; border: 1.5px solid var(--border); border-radius: 12px; padding: 0.65rem 0.8rem;
+    font-family: "Sarabun", sans-serif; font-size: 0.92rem; background: var(--bg); color: var(--ink);
+  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--primary); }
+  .stepper { display: flex; align-items: center; gap: 0.9rem; }
+  .stepper button {
+    width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--primary); background: transparent;
+    color: var(--primary-strong); font-size: 1.1rem; font-weight: 700; cursor: pointer;
+  }
+  .stepper span { font-family: "Kanit", sans-serif; font-weight: 700; font-size: 1.1rem; min-width: 2ch; text-align: center; }
+
+  .confirm-card {
+    display: none; margin-top: 1.2rem; background: var(--sage-bg); border-radius: 16px; padding: 1.1rem;
+    border: 1.5px dashed var(--sage);
+  }
+  .confirm-card.show { display: block; }
+  .confirm-card h3 { color: var(--sage); margin: 0 0 0.5rem; font-size: 1.05rem; }
+  .confirm-row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 0.2rem 0; }
+  .confirm-row b { font-family: "Kanit", sans-serif; }
+
+  .mybook-list { margin-top: 1rem; display: grid; gap: 0.6rem; }
+  .mybook-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.6rem;
+    background: var(--surface-2); border-radius: 12px; padding: 0.7rem 0.9rem; font-size: 0.85rem;
+  }
+  .mybook-item button { border: none; background: none; color: var(--primary-strong); font-weight: 700; cursor: pointer; font-family: "Kanit", sans-serif; font-size: 0.8rem; }
+
+  /* ---------- reviews ---------- */
+  .rev-summary { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+  .rev-score { font-family: "Kanit", sans-serif; font-size: 2.4rem; font-weight: 700; color: var(--primary-strong); }
+  .stars { color: var(--star); letter-spacing: 1px; }
+  .rev-list { display: grid; gap: 0.8rem; margin-bottom: 1.4rem; }
+  .rev-item { background: var(--surface); border-radius: 14px; padding: 1rem 1.1rem; box-shadow: 0 2px 10px var(--shadow); }
+  .rev-item .head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; }
+  .rev-item .who { font-weight: 700; font-size: 0.9rem; }
+  .rev-item .txt { font-size: 0.87rem; color: var(--ink-soft); line-height: 1.5; }
+  .star-input { display: flex; gap: 0.3rem; font-size: 1.6rem; cursor: pointer; margin-bottom: 0.4rem; }
+  .star-input span { color: var(--border); }
+  .star-input span.on { color: var(--star); }
+
+  /* ---------- location ---------- */
+  .loc-grid { display: grid; gap: 1.2rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .loc-grid { grid-template-columns: 1.1fr 0.9fr; } }
+  .map-card {
+    border-radius: 18px; overflow: hidden; min-height: 220px; position: relative;
+    background: linear-gradient(135deg, var(--surface-2), var(--sage-bg));
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-card svg { width: 64px; height: 64px; color: var(--primary-strong); }
+  .info-list { display: grid; gap: 0.9rem; }
+  .info-item { display: flex; gap: 0.7rem; align-items: flex-start; }
+  .info-item svg { width: 22px; height: 22px; color: var(--primary-strong); flex: none; margin-top: 0.1rem; }
+  .info-item .t { font-weight: 700; font-size: 0.92rem; }
+  .info-item .d { font-size: 0.85rem; color: var(--ink-soft); }
+
+  footer { text-align: center; padding: 2rem 1rem calc(2rem + env(safe-area-inset-bottom, 0px)); color: var(--ink-soft); font-size: 0.82rem; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 20px); background: var(--ink); color: var(--bg);
+    padding: 0.7rem 1.2rem; border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+    opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 60; white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  [data-lang="en"] { display: none; }
+  html[data-current="en"] [data-lang="th"] { display: none; }
+  html[data-current="en"] [data-lang="en"] { display: inline; }
+  html[data-current="en"] [data-lang="en"].block { display: block; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="30" rx="12" ry="10" fill="currentColor" opacity=".95"/><ellipse cx="10" cy="16" rx="5" ry="6.5" fill="currentColor"/><ellipse cx="22" cy="10" rx="5" ry="6.5" fill="currentColor"/><ellipse cx="34" cy="12" rx="5" ry="6.5" fill="currentColor"/><ellipse cx="42" cy="22" rx="4.5" ry="6" fill="currentColor"/></svg>
+      <span class="brand-name">Meow &amp; Milk <span data-lang="th">คาเฟ่แมว</span><span data-lang="en">Cat Café</span></span>
+    </div>
+    <span class="hours-chip" data-lang="th">เปิดทุกวัน 8:00–20:00</span>
+    <span class="hours-chip" data-lang="en">Open daily 8:00–20:00</span>
+    <div class="top-actions">
+      <button class="lang-btn" id="langBtn">EN / ไทย</button>
+    </div>
+  </div>
+  <nav class="pillnav" id="pillnav">
+    <a href="#home" data-lang="th">หน้าแรก</a><a href="#home" data-lang="en">Home</a>
+    <a href="#cats" data-lang="th">แมวของเรา</a><a href="#cats" data-lang="en">Our Cats</a>
+    <a href="#menu" data-lang="th">เมนู</a><a href="#menu" data-lang="en">Menu</a>
+    <a href="#book" data-lang="th">จองคิว</a><a href="#book" data-lang="en">Book Now</a>
+    <a href="#reviews" data-lang="th">รีวิว</a><a href="#reviews" data-lang="en">Reviews</a>
+    <a href="#location" data-lang="th">ที่ตั้ง</a><a href="#location" data-lang="en">Location</a>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <div class="wrap">
+    <h1 data-lang="th">นั่งจิบกาแฟ ท่ามกลางเพื่อนแมวขี้อ้อน 🐾</h1>
+    <h1 data-lang="en" style="display:none">Sip coffee, surrounded by cuddly cat friends 🐾</h1>
+    <p data-lang="th">บ้านของแมว 12 ตัว ใจกลางเมือง เปิดทุกวัน 8 โมงเช้า–2 ทุ่ม จองเวลาล่วงหน้าเพื่อไม่ต้องรอคิวหน้าร้าน</p>
+    <p data-lang="en" style="display:none">Home to 12 cats, right in the city. Open daily 8am–8pm. Reserve a time slot ahead so you never have to wait in line.</p>
+    <div class="cta-row">
+      <a href="#book" class="btn btn-primary"><span data-lang="th">จองเวลาเลย</span><span data-lang="en">Book a Time</span></a>
+      <a href="#cats" class="btn btn-outline"><span data-lang="th">ดูแมวของเรา</span><span data-lang="en">Meet the Cats</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="cats">
+  <div class="wrap">
+    <h2 data-lang="th">แมวของเรา</h2><h2 data-lang="en" style="display:none">Our Cats</h2>
+    <p class="lead" data-lang="th">สมาชิกขนฟูทั้ง 12 ตัวที่รอต้อนรับคุณอยู่</p>
+    <p class="lead" data-lang="en" style="display:none">Twelve fluffy residents waiting to say hello</p>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</section>
+
+<section id="menu" class="section-alt">
+  <div class="wrap">
+    <h2 data-lang="th">เมนู</h2><h2 data-lang="en" style="display:none">Menu</h2>
+    <p class="lead" data-lang="th">เครื่องดื่มและของหวานเบาๆ ระหว่างเล่นกับแมว</p>
+    <p class="lead" data-lang="en" style="display:none">Drinks and light bites to enjoy while playing with the cats</p>
+    <div class="menu-cats" id="menuCats"></div>
+    <div class="menu-list" id="menuList"></div>
+    <div class="fee-note" data-lang="th">🐱 ค่าบริการเล่นกับแมว 150 บาท/ชั่วโมง/คน (รวมเครื่องดื่ม 1 แก้ว)</div>
+    <div class="fee-note" data-lang="en" style="display:none">🐱 Cat-play fee: 150 THB / hour / person (includes 1 free drink)</div>
+  </div>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <h2 data-lang="th">จองคิวเล่นกับแมว</h2><h2 data-lang="en" style="display:none">Book Your Visit</h2>
+    <p class="lead" data-lang="th">เลือกวันที่ เวลา แล้วกรอกข้อมูลของคุณ — ใช้เวลาไม่ถึงนาที</p>
+    <p class="lead" data-lang="en" style="display:none">Pick a date, a time, and fill in your details — takes less than a minute</p>
+
+    <div class="book-card">
+      <div class="step-label"><span data-lang="th">1. เลือกวันที่</span><span data-lang="en" style="display:none">1. Choose a date</span></div>
+      <div class="date-row" id="dateRow"></div>
+
+      <div class="step-label"><span data-lang="th">2. เลือกเวลา (8:00–20:00)</span><span data-lang="en" style="display:none">2. Choose a time (8:00–20:00)</span></div>
+      <div class="slot-grid" id="slotGrid"></div>
+
+      <div class="step-label"><span data-lang="th">3. จำนวนคน</span><span data-lang="en" style="display:none">3. Party size</span></div>
+      <div class="stepper">
+        <button id="partyMinus" type="button">−</button>
+        <span id="partyCount">2</span>
+        <button id="partyPlus" type="button">+</button>
+      </div>
+
+      <div class="step-label"><span data-lang="th">4. ข้อมูลติดต่อ</span><span data-lang="en" style="display:none">4. Contact info</span></div>
+      <div class="form-grid">
+        <div class="field">
+          <label data-lang="th">ชื่อผู้จอง</label><label data-lang="en" style="display:none">Your name</label>
+          <input id="fName" type="text" placeholder="เช่น คุณมิว">
+        </div>
+        <div class="field">
+          <label data-lang="th">เบอร์โทร</label><label data-lang="en" style="display:none">Phone number</label>
+          <input id="fPhone" type="tel" placeholder="08x-xxx-xxxx">
+        </div>
+        <div class="field">
+          <label data-lang="th">หมายเหตุ (ถ้ามี)</label><label data-lang="en" style="display:none">Notes (optional)</label>
+          <textarea id="fNote" rows="2" placeholder=""></textarea>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="submitBtn" style="margin-top:1.2rem;" disabled>
+        <span data-lang="th">ยืนยันการจอง</span><span data-lang="en" style="display:none">Confirm Booking</span>
+      </button>
+
+      <div class="confirm-card" id="confirmCard">
+        <h3><span data-lang="th">🎉 จองสำเร็จ!</span><span data-lang="en" style="display:none">🎉 Booking confirmed!</span></h3>
+        <div class="confirm-row"><span data-lang="th">วันที่</span><span data-lang="en" style="display:none">Date</span><b id="cDate"></b></div>
+        <div class="confirm-row"><span data-lang="th">เวลา</span><span data-lang="en" style="display:none">Time</span><b id="cTime"></b></div>
+        <div class="confirm-row"><span data-lang="th">จำนวนคน</span><span data-lang="en" style="display:none">Guests</span><b id="cParty"></b></div>
+        <div class="confirm-row"><span data-lang="th">ชื่อ</span><span data-lang="en" style="display:none">Name</span><b id="cName"></b></div>
+      </div>
+    </div>
+
+    <h3 class="step-label" style="margin-top:2rem;font-size:1rem;">
+      <span data-lang="th">การจองของฉัน</span><span data-lang="en" style="display:none">My Bookings</span>
+    </h3>
+    <div class="mybook-list" id="myBookings"></div>
+  </div>
+</section>
+
+<section id="reviews" class="section-alt">
+  <div class="wrap">
+    <h2 data-lang="th">รีวิวจากลูกค้า</h2><h2 data-lang="en" style="display:none">Customer Reviews</h2>
+    <div class="rev-summary">
+      <div class="rev-score" id="avgScore">4.8</div>
+      <div>
+        <div class="stars" id="avgStars">★★★★★</div>
+        <div style="font-size:0.8rem;color:var(--ink-soft);" id="revCount">0 <span data-lang="th">รีวิว</span><span data-lang="en" style="display:none">reviews</span></div>
+      </div>
+    </div>
+    <div class="rev-list" id="revList"></div>
+
+    <div class="book-card">
+      <div class="step-label" style="margin-top:0;"><span data-lang="th">เขียนรีวิวของคุณ</span><span data-lang="en" style="display:none">Write your review</span></div>
+      <div class="star-input" id="starInput">
+        <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label data-lang="th">ชื่อของคุณ</label><label data-lang="en" style="display:none">Your name</label>
+          <input id="rName" type="text">
+        </div>
+        <div class="field">
+          <label data-lang="th">ความคิดเห็น</label><label data-lang="en" style="display:none">Comment</label>
+          <textarea id="rText" rows="2"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-sage btn-block" id="revSubmit" style="margin-top:1rem;">
+        <span data-lang="th">ส่งรีวิว</span><span data-lang="en" style="display:none">Submit Review</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section id="location">
+  <div class="wrap">
+    <h2 data-lang="th">ที่ตั้งร้าน</h2><h2 data-lang="en" style="display:none">Location</h2>
+    <div class="loc-grid">
+      <div class="map-card">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>
+      </div>
+      <div class="info-list">
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>
+          <div>
+            <div class="t" data-lang="th">ที่อยู่</div><div class="t" data-lang="en" style="display:none">Address</div>
+            <div class="d">88/1 ซอยสุขุมวิท 24, คลองตัน, คลองเตย, กรุงเทพฯ 10110</div>
+          </div>
+        </div>
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div>
+            <div class="t" data-lang="th">เวลาทำการ</div><div class="t" data-lang="en" style="display:none">Opening Hours</div>
+            <div class="d"><span data-lang="th">ทุกวัน 8:00–20:00 น.</span><span data-lang="en" style="display:none">Daily 8:00 AM–8:00 PM</span></div>
+          </div>
+        </div>
+        <div class="info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <div>
+            <div class="t" data-lang="th">โทร / LINE</div><div class="t" data-lang="en" style="display:none">Phone / LINE</div>
+            <div class="d">02-123-4567 · @meowmilkcafe</div>
+          </div>
+        </div>
+        <a id="mapLink" class="btn btn-outline" target="_blank" rel="noopener">
+          <span data-lang="th">เปิดใน Google Maps</span><span data-lang="en" style="display:none">Open in Google Maps</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span data-lang="th">© 2569 Meow &amp; Milk คาเฟ่แมว · หน้านี้เป็นต้นแบบสำหรับสาธิต ข้อมูลการจองเก็บไว้ในเครื่องนี้เท่านั้น</span>
+  <span data-lang="en" style="display:none">© 2026 Meow &amp; Milk Cat Café · This is a demo prototype. Bookings are stored on this device only.</span>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------------- language ---------------- */
+  var htmlEl = document.documentElement;
+  function setLang(lang) {
+    htmlEl.setAttribute("data-current", lang);
+    document.querySelectorAll('[data-lang="th"]').forEach(function (el) { el.style.display = lang === "th" ? "" : "none"; });
+    document.querySelectorAll('[data-lang="en"]').forEach(function (el) { el.style.display = lang === "en" ? "" : "none"; });
+    try { localStorage.setItem("cc_lang", lang); } catch (e) {}
+  }
+  var savedLang = "th";
+  try { savedLang = localStorage.getItem("cc_lang") || "th"; } catch (e) {}
+  setLang(savedLang);
+  document.getElementById("langBtn").addEventListener("click", function () {
+    var cur = htmlEl.getAttribute("data-current") === "en" ? "th" : "en";
+    setLang(cur);
+  });
+
+  function showToast(msg) {
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function () { t.classList.remove("show"); }, 2200);
+  }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  /* ---------------- cats ---------------- */
+  var cats = [
+    { name_th: "ส้ม", name_en: "Somtam", color: "#E8A15C", pattern: "tabby", tag_th: ["ขี้อ้อน","ชอบนอนตัก"], tag_en: ["Cuddly","Lap cat"], bio_th: "แมวส้มตัวอ้วน ชอบมานอนตักทันทีที่คุณนั่งลง", bio_en: "A chubby orange cat who hops onto your lap the moment you sit down." },
+    { name_th: "มิว", name_en: "Miu", color: "#F5F1E8", pattern: "solid", tag_th: ["ขี้อาย","รักสงบ"], tag_en: ["Shy","Peaceful"], bio_th: "แมวขาวขี้อาย ชอบมุมเงียบๆ แต่ค่อยๆ คุ้นเคยแล้วอ้อนสุดๆ", bio_en: "A shy white cat who loves quiet corners but warms up fast." },
+    { name_th: "ดำ", name_en: "Dam", color: "#3A2E2A", pattern: "solid", tag_th: ["ขี้เล่น","นักล่า"], tag_en: ["Playful","Hunter"], bio_th: "นักล่าตัวยงประจำร้าน ชอบไล่จับของเล่นทุกชนิด", bio_en: "The café's top hunter — loves chasing every toy in sight." },
+    { name_th: "เทา", name_en: "Tao", color: "#9AA0A6", pattern: "solid", tag_th: ["สุขุม","ชอบมองนก"], tag_en: ["Calm","Bird-watcher"], bio_th: "แมวเทาสุขุม ชอบนั่งมองนกข้างหน้าต่างทั้งวัน", bio_en: "A calm grey cat who watches birds by the window all day." },
+    { name_th: "ลาย", name_en: "Lai", color: "#C9945A", pattern: "tabby2", tag_th: ["อยากรู้อยากเห็น"], tag_en: ["Curious"], bio_th: "แมวลายจุดที่สนใจทุกอย่างที่เดินผ่าน", bio_en: "A curious tabby who investigates everything that moves." },
+    { name_th: "เผือก", name_en: "Phueak", color: "#EFE2C6", pattern: "solid", tag_th: ["ติดเชือก","ร่าเริง"], tag_en: ["Rope-obsessed","Cheerful"], bio_th: "แมวครีมร่าเริง ชอบเล่นเชือกจนลืมเวลา", bio_en: "A cheerful cream cat who loses track of time playing with rope toys." },
+    { name_th: "เหมียว", name_en: "Miew", color: "#8B5E3C", pattern: "solid", tag_th: ["ขี้สงสัย","นักสำรวจ"], tag_en: ["Curious","Explorer"], bio_th: "ชอบดมของใหม่ทุกอย่างก่อนใครในร้าน", bio_en: "Always the first to sniff out anything new in the café." },
+    { name_th: "โกโก้", name_en: "Coco", color: "#6B4226", pattern: "solid", tag_th: ["ใจดี","ขี้ประจบ"], tag_en: ["Gentle","Affectionate"], bio_th: "แมวน้ำตาลใจดี ชอบให้ลูบหัวไม่มีเบื่อ", bio_en: "A gentle brown cat who never gets tired of head pats." },
+    { name_th: "นุ่น", name_en: "Nun", color: "#F0EAE0", pattern: "tabby", tag_th: ["สง่างาม","เดินช้าๆ"], tag_en: ["Elegant","Graceful"], bio_th: "เดินสง่างามเหมือนแบบถ่ายรูปทุกก้าว", bio_en: "Walks with the elegance of a runway model, every single step." },
+    { name_th: "พุดดิ้ง", name_en: "Pudding", color: "#E3C08A", pattern: "tabby2", tag_th: ["ตะกละ","จมูกไว"], tag_en: ["Foodie","Sharp nose"], bio_th: "จำกลิ่นขนมได้แม่นยำที่สุดในร้าน", bio_en: "Has the sharpest nose in the café for anything sweet." },
+    { name_th: "จ๊ะเอ๋", name_en: "Ja-e", color: "#2E2622", pattern: "solid", tag_th: ["ขี้เล่น","ชอบซ่อน"], tag_en: ["Playful","Hide-and-seek"], bio_th: "ชอบซ่อนตัวแล้วโผล่มาทักทายแบบไม่ทันตั้งตัว", bio_en: "Loves hiding then popping out to say hello unexpectedly." },
+    { name_th: "มะลิ", name_en: "Mali", color: "#F7D9A8", pattern: "tabby", tag_th: ["อบอุ่น","ตามติด"], tag_en: ["Warm","Follows you"], bio_th: "ชอบเดินตามแขกไปทั่วร้านราวกับเป็นไกด์ส่วนตัว", bio_en: "Follows guests around the café like a personal little guide." },
+  ];
+
+  function catFaceSvg(c) {
+    var stripes = "";
+    if (c.pattern === "tabby") {
+      stripes = '<path d="M28 34 L34 30 M38 32 L44 29 M28 46 L34 48 M38 47 L44 49" stroke="#00000022" stroke-width="3" stroke-linecap="round"/>';
+    } else if (c.pattern === "tabby2") {
+      stripes = '<circle cx="30" cy="42" r="3" fill="#00000022"/><circle cx="42" cy="40" r="3" fill="#00000022"/><circle cx="36" cy="50" r="3" fill="#00000022"/>';
+    }
+    return (
+      '<svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">' +
+      '<polygon points="14,22 26,8 30,28" fill="' + c.color + '"/>' +
+      '<polygon points="58,22 46,8 42,28" fill="' + c.color + '"/>' +
+      '<circle cx="36" cy="42" r="24" fill="' + c.color + '"/>' +
+      stripes +
+      '<circle cx="28" cy="40" r="2.6" fill="#3A2E2A"/><circle cx="44" cy="40" r="2.6" fill="#3A2E2A"/>' +
+      '<path d="M33 48 Q36 51 39 48" stroke="#3A2E2A" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<path d="M17 46 L26 44 M17 50 L26 48 M55 46 L46 44 M55 50 L46 48" stroke="#3A2E2A" stroke-width="1.4" stroke-linecap="round"/>' +
+      '</svg>'
+    );
+  }
+
+  var catGrid = document.getElementById("catGrid");
+  catGrid.innerHTML = cats.map(function (c) {
+    return (
+      '<div class="cat-card">' +
+        '<div class="cat-face">' + catFaceSvg(c) + '</div>' +
+        '<div class="cat-name" data-lang="th">' + c.name_th + '</div><div class="cat-name" data-lang="en" style="display:none">' + c.name_en + '</div>' +
+        '<div class="cat-tags">' +
+          c.tag_th.map(function (t) { return '<span class="cat-tag" data-lang="th">' + t + '</span>'; }).join("") +
+          c.tag_en.map(function (t) { return '<span class="cat-tag" data-lang="en" style="display:none">' + t + '</span>'; }).join("") +
+        '</div>' +
+        '<div class="cat-bio" data-lang="th">' + c.bio_th + '</div><div class="cat-bio" data-lang="en" style="display:none">' + c.bio_en + '</div>' +
+      '</div>'
+    );
+  }).join("");
+
+  /* ---------------- menu ---------------- */
+  var menu = {
+    drinks: {
+      label_th: "เครื่องดื่ม", label_en: "Drinks",
+      items: [
+        { th: "ลาเต้ร้อน/เย็น", en: "Latte (hot/iced)", price: "65–75" },
+        { th: "คาปูชิโน่", en: "Cappuccino", price: "65–75" },
+        { th: "ชาไทย", en: "Thai Milk Tea", price: "60–70" },
+        { th: "มัทฉะลาเต้", en: "Matcha Latte", price: "70–80" },
+        { th: "ช็อกโกแลตร้อน", en: "Hot Chocolate", price: "65–75" },
+      ],
+    },
+    sweets: {
+      label_th: "ของหวาน", label_en: "Sweets",
+      items: [
+        { th: "คุกกี้รูปแมว", en: "Cat-shaped cookie", price: "45" },
+        { th: "ชีสเค้ก", en: "Cheesecake", price: "85" },
+        { th: "ครัวซองต์", en: "Croissant", price: "55" },
+      ],
+    },
+  };
+  var menuCats = document.getElementById("menuCats");
+  var menuList = document.getElementById("menuList");
+  var menuKeys = Object.keys(menu);
+  menuCats.innerHTML = menuKeys.map(function (k, i) {
+    return '<div class="menu-tab' + (i === 0 ? ' active' : '') + '" data-k="' + k + '">' +
+      '<span data-lang="th">' + menu[k].label_th + '</span><span data-lang="en" style="display:none">' + menu[k].label_en + '</span></div>';
+  }).join("");
+  function renderMenu(k) {
+    menuList.innerHTML = menu[k].items.map(function (it) {
+      return '<div class="menu-item"><div><div class="name" data-lang="th">' + it.th + '</div><div class="name" data-lang="en" style="display:none">' + it.en + '</div></div><div class="price">฿' + it.price + '</div></div>';
+    }).join("");
+    setLang(htmlEl.getAttribute("data-current"));
+  }
+  renderMenu(menuKeys[0]);
+  menuCats.addEventListener("click", function (e) {
+    var tab = e.target.closest(".menu-tab");
+    if (!tab) return;
+    document.querySelectorAll(".menu-tab").forEach(function (t) { t.classList.remove("active"); });
+    tab.classList.add("active");
+    renderMenu(tab.getAttribute("data-k"));
+  });
+
+  /* ---------------- booking ---------------- */
+  var thaiDow = ["อา","จ","อ","พ","พฤ","ศ","ส"];
+  var enDow = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+  var thaiMonths = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+  var enMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var hours = [8,9,10,11,12,13,14,15,16,17,18,19];
+  var CAP = 10;
+
+  function fmtDate(d) {
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+  function seedRand(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+    return function () { h = (h * 1103515245 + 12345) >>> 0; return (h % 1000) / 1000; };
+  }
+
+  var today = new Date();
+  var dates = [];
+  for (var i = 0; i < 14; i++) {
+    var d = new Date(today);
+    d.setDate(d.getDate() + i);
+    dates.push(d);
+  }
+
+  var state = { date: fmtDate(dates[0]), time: null, party: 2 };
+
+  var bookings = [];
+  try { bookings = JSON.parse(localStorage.getItem("cc_bookings_v1") || "[]"); } catch (e) { bookings = []; }
+  function saveBookings() { try { localStorage.setItem("cc_bookings_v1", JSON.stringify(bookings)); } catch (e) {} }
+
+  function bookedCount(dateStr, hour) {
+    var base = Math.floor(seedRand(dateStr + "_" + hour)() * (CAP - 1));
+    var mine = bookings.filter(function (b) { return b.date === dateStr && b.hour === hour; })
+      .reduce(function (sum, b) { return sum + b.party; }, 0);
+    return Math.min(CAP, base + mine);
+  }
+
+  var dateRow = document.getElementById("dateRow");
+  function renderDates() {
+    dateRow.innerHTML = dates.map(function (d) {
+      var ds = fmtDate(d);
+      var active = ds === state.date ? " active" : "";
+      return (
+        '<div class="date-chip' + active + '" data-d="' + ds + '">' +
+          '<div class="dow" data-lang="th">' + thaiDow[d.getDay()] + '</div><div class="dow" data-lang="en" style="display:none">' + enDow[d.getDay()] + '</div>' +
+          '<div class="dnum">' + d.getDate() + '</div>' +
+        '</div>'
+      );
+    }).join("");
+    setLang(htmlEl.getAttribute("data-current"));
+  }
+  renderDates();
+
+  var slotGrid = document.getElementById("slotGrid");
+  function renderSlots() {
+    slotGrid.innerHTML = hours.map(function (h) {
+      var used = bookedCount(state.date, h);
+      var left = CAP - used;
+      var full = left <= 0;
+      var active = (state.time === h) ? " active" : "";
+      return (
+        '<div class="slot' + (full ? " full" : "") + active + '" data-h="' + h + '">' +
+          '<div class="t">' + String(h).padStart(2, "0") + ':00</div>' +
+          '<div class="a">' + (full ? '<span data-lang="th">เต็ม</span><span data-lang="en" style="display:none">Full</span>' : left + ' <span data-lang="th">ที่ว่าง</span><span data-lang="en" style="display:none">left</span>') + '</div>' +
+        '</div>'
+      );
+    }).join("");
+    setLang(htmlEl.getAttribute("data-current"));
+    updateSubmitState();
+  }
+  renderSlots();
+
+  dateRow.addEventListener("click", function (e) {
+    var chip = e.target.closest(".date-chip");
+    if (!chip) return;
+    state.date = chip.getAttribute("data-d");
+    state.time = null;
+    document.querySelectorAll(".date-chip").forEach(function (c) { c.classList.remove("active"); });
+    chip.classList.add("active");
+    renderSlots();
+  });
+
+  slotGrid.addEventListener("click", function (e) {
+    var slot = e.target.closest(".slot");
+    if (!slot || slot.classList.contains("full")) return;
+    state.time = Number(slot.getAttribute("data-h"));
+    renderSlots();
+  });
+
+  var partyCount = document.getElementById("partyCount");
+  document.getElementById("partyMinus").addEventListener("click", function () {
+    state.party = Math.max(1, state.party - 1);
+    partyCount.textContent = state.party;
+  });
+  document.getElementById("partyPlus").addEventListener("click", function () {
+    state.party = Math.min(6, state.party + 1);
+    partyCount.textContent = state.party;
+  });
+
+  var submitBtn = document.getElementById("submitBtn");
+  function updateSubmitState() {
+    var name = document.getElementById("fName").value.trim();
+    var phone = document.getElementById("fPhone").value.trim();
+    submitBtn.disabled = !(state.time !== null && name && phone);
+  }
+  document.getElementById("fName").addEventListener("input", updateSubmitState);
+  document.getElementById("fPhone").addEventListener("input", updateSubmitState);
+
+  function renderMyBookings() {
+    var list = document.getElementById("myBookings");
+    if (!bookings.length) {
+      list.innerHTML = '<div style="font-size:0.85rem;color:var(--ink-soft);"><span data-lang="th">ยังไม่มีการจอง</span><span data-lang="en" style="display:none">No bookings yet</span></div>';
+      setLang(htmlEl.getAttribute("data-current"));
+      return;
+    }
+    list.innerHTML = bookings.map(function (b, idx) {
+      return (
+        '<div class="mybook-item">' +
+          '<span>' + b.date + ' · ' + String(b.hour).padStart(2, "0") + ':00 · ' + b.party + ' <span data-lang="th">คน</span><span data-lang="en" style="display:none">guests</span> · ' + esc(b.name) + '</span>' +
+          '<button data-idx="' + idx + '"><span data-lang="th">ยกเลิก</span><span data-lang="en" style="display:none">Cancel</span></button>' +
+        '</div>'
+      );
+    }).join("");
+    setLang(htmlEl.getAttribute("data-current"));
+  }
+  renderMyBookings();
+
+  document.getElementById("myBookings").addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-idx]");
+    if (!btn) return;
+    var idx = Number(btn.getAttribute("data-idx"));
+    bookings.splice(idx, 1);
+    saveBookings();
+    renderMyBookings();
+    renderSlots();
+    showToast(htmlEl.getAttribute("data-current") === "en" ? "Booking cancelled" : "ยกเลิกการจองแล้ว");
+  });
+
+  submitBtn.addEventListener("click", function () {
+    if (submitBtn.disabled) return;
+    var name = document.getElementById("fName").value.trim();
+    var phone = document.getElementById("fPhone").value.trim();
+    var note = document.getElementById("fNote").value.trim();
+    var booking = { date: state.date, hour: state.time, party: state.party, name: name, phone: phone, note: note };
+    bookings.push(booking);
+    saveBookings();
+
+    var d = new Date(state.date + "T00:00:00");
+    var isEn = htmlEl.getAttribute("data-current") === "en";
+    document.getElementById("cDate").textContent = isEn
+      ? enMonths[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
+      : d.getDate() + " " + thaiMonths[d.getMonth()] + " " + (d.getFullYear() + 543);
+    document.getElementById("cTime").textContent = String(state.time).padStart(2, "0") + ":00";
+    document.getElementById("cParty").textContent = state.party;
+    document.getElementById("cName").textContent = name;
+    document.getElementById("confirmCard").classList.add("show");
+
+    renderSlots();
+    renderMyBookings();
+    showToast(isEn ? "Booking confirmed! 🐾" : "จองสำเร็จแล้วค่ะ! 🐾");
+  });
+
+  /* ---------------- reviews ---------------- */
+  var seedReviews = [
+    { name: "Ploy", stars: 5, th: "แมวน่ารักมาก พนักงานใจดี บรรยากาศดี", en: "Adorable cats, kind staff, great vibe." },
+    { name: "Ken", stars: 5, th: "จองผ่านเว็บง่ายมาก ไม่ต้องรอคิว", en: "Booking online was so easy, no waiting in line." },
+    { name: "Fah", stars: 4, th: "กาแฟอร่อย แต่คนแน่นช่วงเย็น", en: "Great coffee, gets crowded in the evening." },
+  ];
+  var userReviews = [];
+  try { userReviews = JSON.parse(localStorage.getItem("cc_reviews_v1") || "[]"); } catch (e) { userReviews = []; }
+  function saveReviews() { try { localStorage.setItem("cc_reviews_v1", JSON.stringify(userReviews)); } catch (e) {} }
+
+  function renderReviews() {
+    var all = seedReviews.concat(userReviews);
+    var avg = (all.reduce(function (s, r) { return s + r.stars; }, 0) / all.length).toFixed(1);
+    document.getElementById("avgScore").textContent = avg;
+    document.getElementById("avgStars").textContent = "★★★★★☆☆☆☆☆".slice(5 - Math.round(avg), 10 - Math.round(avg));
+    document.getElementById("revCount").innerHTML = all.length + ' <span data-lang="th">รีวิว</span><span data-lang="en" style="display:none">reviews</span>';
+
+    document.getElementById("revList").innerHTML = all.slice().reverse().map(function (r) {
+      return (
+        '<div class="rev-item">' +
+          '<div class="head"><span class="who">' + esc(r.name) + '</span><span class="stars">' + "★".repeat(r.stars) + '</span></div>' +
+          '<div class="txt" data-lang="th">' + esc(r.th) + '</div><div class="txt" data-lang="en" style="display:none">' + esc(r.en) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+    setLang(htmlEl.getAttribute("data-current"));
+  }
+  renderReviews();
+
+  var chosenStars = 5;
+  var starInput = document.getElementById("starInput");
+  function renderStarInput() {
+    starInput.querySelectorAll("span").forEach(function (s) {
+      s.classList.toggle("on", Number(s.getAttribute("data-v")) <= chosenStars);
+    });
+  }
+  renderStarInput();
+  starInput.addEventListener("click", function (e) {
+    var s = e.target.closest("span[data-v]");
+    if (!s) return;
+    chosenStars = Number(s.getAttribute("data-v"));
+    renderStarInput();
+  });
+
+  document.getElementById("revSubmit").addEventListener("click", function () {
+    var name = document.getElementById("rName").value.trim();
+    var text = document.getElementById("rText").value.trim();
+    var isEn = htmlEl.getAttribute("data-current") === "en";
+    if (!name || !text) {
+      showToast(isEn ? "Please fill in your name and comment" : "กรอกชื่อและความคิดเห็นก่อนนะคะ");
+      return;
+    }
+    userReviews.push({ name: name, stars: chosenStars, th: text, en: text });
+    saveReviews();
+    document.getElementById("rName").value = "";
+    document.getElementById("rText").value = "";
+    chosenStars = 5;
+    renderStarInput();
+    renderReviews();
+    showToast(isEn ? "Thanks for your review! 🐾" : "ขอบคุณสำหรับรีวิวค่ะ! 🐾");
+  });
+
+  /* ---------------- location ---------------- */
+  var mapQuery = encodeURIComponent("Meow & Milk Cat Café, 88/1 Sukhumvit 24, Bangkok");
+  document.getElementById("mapLink").href = "https://www.google.com/maps/search/?api=1&query=" + mapQuery;
+
+  /* ---------------- nav active state ---------------- */
+  var sections = ["home","cats","menu","book","reviews","location"];
+  var navLinksByHref = {};
+  document.querySelectorAll("#pillnav a").forEach(function (a) {
+    var href = a.getAttribute("href");
+    (navLinksByHref[href] = navLinksByHref[href] || []).push(a);
+  });
+  function setActiveNav(id) {
+    Object.keys(navLinksByHref).forEach(function (href) {
+      navLinksByHref[href].forEach(function (a) { a.classList.toggle("active", href === "#" + id); });
+    });
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) setActiveNav(en.target.id);
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  sections.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+  setActiveNav("home");
+})();
+</script>
+</body>
+</html>
